@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, RequestOptions, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 
@@ -18,9 +18,7 @@ export class PostService {
 
   getPosts(): Observable<Post[]> {
 
-    let now = moment();
-
-    /*----------------------------------------------------------------------------------------------|
+      /*----------------------------------------------------------------------------------------------|
      | ~~~ Pink Path ~~~                                                                            |
      |----------------------------------------------------------------------------------------------|
      | Pide al servidor que te retorne los posts ordenados de más reciente a menos, teniendo en     |
@@ -35,19 +33,20 @@ export class PostService {
      |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
      |----------------------------------------------------------------------------------------------*/
 
+    let now = moment();
+
+    let headers = new Headers();
+    headers.set("Accept", "application/json");
+
+    let options = new RequestOptions({
+            headers: headers,
+            search: new URLSearchParams(`publicationDate_lte=${now}&_sort=publicationDate&_order=DESC`)
+    });   
+    
     return this._http
-      .get(`${this._backendUri}/posts`)
-      .map((response: Response) => {
-        let postsInResponse: any = response.json() as any;
-        return postsInResponse.map((data: any) =>{
-          return Post.fromJsonToList(data);
-        });
-      });
-      /*
-    return this._http
-      .get(`${this._backendUri}/posts`)
+      .get(`${this._backendUri}/posts`, options)
       .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
-      */
+    
   }
 
   getUserPosts(id: number): Observable<Post[]> {

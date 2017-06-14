@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
+import { ChangeDetectionStrategy, EventEmitter, Component, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Post } from './../post';
 
 @Component({
@@ -11,6 +11,12 @@ import { Post } from './../post';
 export class PostsListComponent {
 
   @Input() posts: Post[];
+  private _postSeleccionado: Post;
+
+
+  constructor(
+    private _router: Router) { }
+ 
 
   /*------------------------------------------------------------------------------------------------------------------|
    | ~~~ Red Path ~~~                                                                                                 |
@@ -27,5 +33,11 @@ export class PostsListComponent {
    | correspondiente. Recuerda que para hacer esto necesitas inyectar como dependencia el Router de la app.  La ruta |
    | a navegar es '/posts', pasando como parámetro el identificador del post.                                        |
    |-----------------------------------------------------------------------------------------------------------------*/
+  
+
+  verDetallesPost(post: Post): void {
+    this._router.navigate([`/posts/${post.id}`]);
+  }
+  
 
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Post } from './../post';
 
@@ -10,6 +10,11 @@ import { Post } from './../post';
 export class PostPreviewComponent {
 
   @Input() post: Post;
+  @Output() alSeleccionarPost: EventEmitter<Post>;
+  
+  constructor() {
+     this.alSeleccionarPost = new EventEmitter<Post>();
+  }
 
   /*------------------------------------------------------------------------------------------------------------------|
    | ~~~ Red Path ~~~                                                                                                 |
@@ -26,6 +31,11 @@ export class PostPreviewComponent {
    | de eventos; la idea es enviar al componente padre el post sobre el cuál se ha hecho clic. Y puesto que dicho     |
    | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
    |------------------------------------------------------------------------------------------------------------------*/
+
+  // Notificamos la pulsación sobre el botón de 'Post Preview'
+  notificarPostPreview(post: Post): void {
+    this.alSeleccionarPost.emit(post);
+  }
 
   plainTextToHtml(text: string): string {
     return text ? `<p>${text.replace(/\n/gi, "</p><p>")}</p>` : '';
