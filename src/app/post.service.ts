@@ -5,6 +5,7 @@ import "rxjs/add/operator/map";
 
 import { BackendUri } from './settings';
 import { Post } from './post';
+import { Category } from './category';
 
 import * as moment from 'moment';
 import 'moment/locale/es';
@@ -16,6 +17,21 @@ export class PostService {
     private _http: Http,
     @Inject(BackendUri) private _backendUri) { }
 
+
+  // Función para generar RequestOptions de forma genérica
+  public getRequestOptions(): RequestOptions {
+    let now = moment();
+
+    let headers = new Headers();
+    headers.set("Accept", "application/json");
+
+    let options = new RequestOptions({
+            headers: headers,
+            search: new URLSearchParams(`publicationDate_lte=${now}&_sort=publicationDate&_order=DESC`)
+    });
+    return options;
+  }
+  
   getPosts(): Observable<Post[]> {
 
       /*----------------------------------------------------------------------------------------------|
@@ -33,18 +49,8 @@ export class PostService {
      |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
      |----------------------------------------------------------------------------------------------*/
 
-    let now = moment();
-
-    let headers = new Headers();
-    headers.set("Accept", "application/json");
-
-    let options = new RequestOptions({
-            headers: headers,
-            search: new URLSearchParams(`publicationDate_lte=${now}&_sort=publicationDate&_order=DESC`)
-    });   
-    
-    return this._http
-      .get(`${this._backendUri}/posts`, options)
+     return this._http
+      .get(`${this._backendUri}/posts`, this.getRequestOptions())
       .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
     
   }
@@ -67,12 +73,23 @@ export class PostService {
      |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)        |
      |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
      |----------------------------------------------------------------------------------------------*/
+    
+    let now = moment();
+
+    let headers = new Headers();
+    headers.set("Accept", "application/json");
+
+    let options = new RequestOptions({
+            headers: headers,
+            search: new URLSearchParams(`author.id=${id}&publicationDate_lte=${now}&_sort=publicationDate&_order=DESC`)
+    });
 
     return this._http
-      .get(`${this._backendUri}/posts`)
+      .get(`${this._backendUri}/posts`, options)
       .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
   }
 
+  
   getCategoryPosts(id: number): Observable<Post[]> {
 
     /*--------------------------------------------------------------------------------------------------|
@@ -95,10 +112,14 @@ export class PostService {
      |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)            |
      |   - Ordenación: _sort=publicationDate&_order=DESC                                                |
      |--------------------------------------------------------------------------------------------------*/
-
+    
     return this._http
-      .get(`${this._backendUri}/posts`)
-      .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
+      .get(`${this._backendUri}/posts`, this.getRequestOptions())
+      .map((response: Response): Post[] => Post.fromJsonToList(response.json())
+      .filter((post: Post) => {
+        //console.log("categorias", post.categories);
+        return post.categories.find((category => category.id === id));
+      }));
   }
 
   getPostDetails(id: number): Observable<Post> {

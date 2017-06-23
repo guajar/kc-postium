@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, EventEmitter, Component, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Post } from './../post';
+import { User } from './../user';
 
 @Component({
   selector: 'posts-list',
@@ -11,7 +12,10 @@ import { Post } from './../post';
 export class PostsListComponent {
 
   @Input() posts: Post[];
+  @Input() users: User[];
+
   private _postSeleccionado: Post;
+  private _userSeleccionado: User;
 
 
   constructor(
@@ -26,6 +30,10 @@ export class PostsListComponent {
    | La ruta a navegar es '/posts/users', pasando como parámetro el identificador del autor.                          |
    |------------------------------------------------------------------------------------------------------------------*/
 
+  verAutoresPost(user: User): void {
+    this._router.navigate([`/posts/users/${user.id}`])
+  }
+
   /*-----------------------------------------------------------------------------------------------------------------|
    | ~~~ Green Path ~~~                                                                                              |
    |-----------------------------------------------------------------------------------------------------------------|
@@ -38,6 +46,8 @@ export class PostsListComponent {
   verDetallesPost(post: Post): void {
     this._router.navigate([`/posts/${post.id}`]);
   }
+
+  
   
 
 }

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { Router } from '@angular/router';
 import { NativeWindow } from './../window';
 import { Post } from './../post';
+import { Category } from '../category';
 
 @Component({
   templateUrl: './post-details.component.html',
@@ -14,6 +15,7 @@ export class PostDetailsComponent implements OnInit {
 
   constructor(
     private _activatedRoute: ActivatedRoute,
+    private _router: Router, 
     @Inject(NativeWindow) private _window) { }
 
   ngOnInit(): void {
@@ -33,6 +35,11 @@ export class PostDetailsComponent implements OnInit {
    | pasando como parámetro el identificador del autor.                                                            |
    |---------------------------------------------------------------------------------------------------------------*/
 
+  mostrarAutoresPost(post: Post): void {
+    this._router.navigate([`/posts/users/${this.post.author.id}`]);
+  }
+
+
   /*--------------------------------------------------------------------------------------------------------------------|
    | ~~~ Yellow Path ~~~                                                                                                |
    |--------------------------------------------------------------------------------------------------------------------|
@@ -40,5 +47,8 @@ export class PostDetailsComponent implements OnInit {
    | para hacer esto necesitas inyectar como dependencia el Router de la app. La ruta a navegar es '/posts/categories', |
    | pasando como parámetro el identificador de la categoría.                                                           |
    |--------------------------------------------------------------------------------------------------------------------*/
-
+  
+  mostrarCategorias(category: Category): void {
+    this._router.navigate([`/posts/categories`, category.id]);
+  }
 }

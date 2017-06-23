@@ -10,7 +10,9 @@
     | Un clic sobre el autor debería enviar un evento al componente padre. |
     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
     -->
-    <span class="name blink-font">{{ post.author.name }}</span>
+    <span class="name blink-font"
+      (click)="notificarAutoresPost(post.author)">
+      {{ post.author.name }}</span>
     <!--
     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
     | Blue Path                                                                     |
@@ -29,7 +31,8 @@
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 -->
 <div class="post">
-  <h3> {{ post.title }} </h3>
+  <h3
+  (click)="notificarPostPreview(post)"> {{ post.title }} </h3>
   <img *ngIf="post.media" [src]="post.media" class="u-max-full-width">
   <div class="html-text" [innerHtml]="plainTextToHtml(post.intro)"></div>
 </div>
