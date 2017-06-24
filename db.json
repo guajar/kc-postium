@@ -280,6 +280,22 @@
         2
       ],
       "id": 10
+    },
+    {
+      "title": "Nuevo Post",
+      "intro": "Intro Nuevo Post",
+      "body": "'Body' nuevo post",
+      "publicationDate": 1498262880000,
+      "categories": [],
+      "author": {
+        "id": 1,
+        "name": "KeepCoder",
+        "username": "keepcoder",
+        "email": "keepcoder@postium.com",
+        "avatar": "assets/images/keepcoder.jpg"
+      },
+      "likes": [],
+      "id": 11
     }
   ],
   "categories": [
