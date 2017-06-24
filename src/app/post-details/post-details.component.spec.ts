@@ -6,14 +6,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/empty';
 
 import { BackendUriProvider } from './../settings';
+import { FromNowPipe } from '../from-now.pipe';
 import { CategoryBoxComponent } from './../category-box/category-box.component';
-import { NativeWindowProvider } from './../window';
 import { Post } from './../post';
 import { PostFormComponent } from './../post-form/post-form.component';
-import { PostDetailsComponent } from './post-details.component';
 import { PostService } from './../post.service';
 import { User } from './../user';
-
+import { NativeWindowProvider } from './../window';
+import { PostDetailsComponent } from './post-details.component';
 class RouterStub { }
 
 class ActivatedRouteStub {
@@ -34,7 +34,8 @@ describe('PostDetailsComponent', () => {
       declarations: [
         CategoryBoxComponent,
         PostFormComponent,
-        PostDetailsComponent
+        PostDetailsComponent,
+        FromNowPipe 
       ],
       providers: [
         BackendUriProvider,

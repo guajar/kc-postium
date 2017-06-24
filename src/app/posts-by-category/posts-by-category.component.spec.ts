@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
-
+import { FromNowPipe } from '../from-now.pipe';
 import { NativeWindowProvider } from './../window';
 import { PostPreviewComponent } from './../post-preview/post-preview.component';
 import { PostsByCategoryComponent } from './posts-by-category.component';
@@ -32,7 +32,8 @@ describe('PostsByCategoryComponent', () => {
       declarations: [
         PostPreviewComponent,
         PostsByCategoryComponent,
-        PostsListComponent
+        PostsListComponent, 
+        FromNowPipe
       ],
       providers: [
         NativeWindowProvider,

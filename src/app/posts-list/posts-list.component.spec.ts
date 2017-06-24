@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-
+import { FromNowPipe } from '../from-now.pipe';
 import { PostPreviewComponent } from './../post-preview/post-preview.component';
 import { PostsListComponent } from './posts-list.component';
 
@@ -17,7 +17,8 @@ describe('PostsListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         PostPreviewComponent,
-        PostsListComponent
+        PostsListComponent, 
+        FromNowPipe
       ],
       providers: [
         { provide: Router, useClass: RouterStub }
